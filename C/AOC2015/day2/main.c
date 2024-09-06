@@ -111,7 +111,7 @@ long int ribbon(FILE *input_file)
                 h = temp;
 
                 temp = 0;
-
+                //TODO: YOU WERE HERE TRYING TO MAKE THE CALC FOR THE RIBBON
                 result = result + (1);
                          printf(" current variable affectations: %d x %d x %d \n", l, w, h);
                 l = w = h = 0;

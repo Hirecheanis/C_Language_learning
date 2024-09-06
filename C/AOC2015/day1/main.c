@@ -45,7 +45,7 @@ int floors(FILE *input_file)
 int position(FILE *input_file)
 {
     long int floor = 0;
-    
+
     long int position = 1;
     long int result;
     bool found = false;
@@ -71,19 +71,14 @@ int position(FILE *input_file)
                 floor--;
             }
             position++;
-            printf("position %d and floor %d \n",position, floor);
-            
+            printf("position %d and floor %d \n", position, floor);
+
             if (floor < 0 && !found)
             {
                 result = position;
                 found = true;
             }
-            
-            
-
-           
         }
-        
     }
 
     fclose(input_file);
@@ -97,7 +92,7 @@ int main(int argc, char **argv)
     input_file = fopen(input, "r");
 
     long int result = position(input_file);
-    
+
     printf("result = %d \n", result);
     return 0;
 }
