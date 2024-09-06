@@ -8,9 +8,20 @@
 #include <unistd.h>
 
 // part 1
-long wrapper(FILE *input_file)
+int min(int a, int b)
+{
+    int min = a;
+    if (b < min)
+        min = b;
+    return min;
+}
+
+long int wrapper(FILE *input_file)
 {
     int c;
+    long long int result = 0;
+    int l = 0, w = 0, h = 0;
+    int temp = 0;
     if (input_file == 0)
     {
         perror("there was an error reading the file\n");
@@ -21,23 +32,95 @@ long wrapper(FILE *input_file)
         while ((c = fgetc(input_file)) != EOF)
         {
 
-            if (isdigit(c) ){
-            int i = c - '0';
-            printf("%d",i);
-            }
-            else if (c == 'x'){
-                
-                
-                    printf("%c", c);}
-                
-            else if(c == '\n'){
+            if (isdigit(c))
+            {
 
-                printf("\n");
-            
+                temp = temp * 10 + (c - '0');
+            }
+
+            else if (c == 'x')
+            {
+                if (l == 0)
+                {
+                    l = temp;
+                }
+                else if (w == 0)
+                {
+                    w = temp;
+                }
+
+                temp = 0;
+            }
+
+            else if (c == '\n')
+            {
+                h = temp;
+
+                temp = 0;
+
+                printf("current result: %d\n", ((2 * l * w) + (2 * w * h) + (2 * h * l)) + min(l * w, min(w * h, h * l)));
+                result = result + (((2 * l * w) + (2 * w * h) + (2 * h * l)) + min(l * w, min(w * h, h * l)));
+                printf(" current variable affectations: %d x %d x %d \n", l, w, h);
+                l = w = h = 0;
             }
         }
     }
-    return 5;
+    fclose(input_file);
+    return result;
+}
+
+// part 2:
+long int ribbon(FILE *input_file)
+{
+    int c;
+    long long int result = 0;
+    int l = 0, w = 0, h = 0;
+    int temp = 0;
+    if (input_file == 0)
+    {
+        perror("there was an error reading the file\n");
+        exit(-1);
+    }
+    else
+    {
+        while ((c = fgetc(input_file)) != EOF)
+        {
+
+            if (isdigit(c))
+            {
+
+                temp = temp * 10 + (c - '0');
+            }
+
+            else if (c == 'x')
+            {
+                if (l == 0)
+                {
+                    l = temp;
+                }
+                else if (w == 0)
+                {
+                    w = temp;
+                }
+
+                temp = 0;
+            }
+
+            else if (c == '\n')
+            {
+                h = temp;
+
+                temp = 0;
+
+                result = result + (1);
+                         printf(" current variable affectations: %d x %d x %d \n", l, w, h);
+                l = w = h = 0;
+            }
+        }
+    }
+    fclose(input_file);
+
+    return result;
 }
 
 int main(int argc, char **argv)
@@ -46,9 +129,8 @@ int main(int argc, char **argv)
     FILE *input_file;
     input_file = fopen(input, "r");
 
-    long result = wrapper(input_file);
+    long int result = wrapper(input_file);
 
-    printf("result = %d \n", result);
-
+    printf("result = %ld \n", result);
     return 0;
 }
