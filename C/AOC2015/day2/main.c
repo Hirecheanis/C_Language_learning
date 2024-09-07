@@ -16,6 +16,34 @@ int min(int a, int b)
     return min;
 }
 
+int *twoMinsOfThree(int a, int b, int c)
+{
+    int *res = malloc(sizeof(int) * 2);
+    int max = a;
+    if (b > max)
+        max = b;
+    if (c > max)
+        max = c;
+
+    if (max == a)
+    {
+        res[0] = b;
+        res[1] = c;
+    }
+    else if (max == b)
+    {
+        res[0] = a;
+        res[1] = c;
+    }
+    else if (max == c)
+    {
+        res[0] = a;
+        res[1] = b;
+    }
+
+    return res;
+}
+
 long int wrapper(FILE *input_file)
 {
     int c;
@@ -111,9 +139,14 @@ long int ribbon(FILE *input_file)
                 h = temp;
 
                 temp = 0;
-                //TODO: YOU WERE HERE TRYING TO MAKE THE CALC FOR THE RIBBON
-                result = result + (1);
-                         printf(" current variable affectations: %d x %d x %d \n", l, w, h);
+                /*A present with dimensions 2x3x4 requires 2+2+3+3 = 10
+                feet of ribbon to wrap the present plus 2*3*4 = 24 feet of ribbon for the bow,
+                for a total of 34 feet.
+                A present with dimensions 1x1x10 requires 1+1+1+1 = 4 feet of ribbon to wrap the
+                present plus 1*1*10 = 10 feet of ribbon for the bow, for a total of 14 feet.*/
+                int *mins = twoMinsOfThree(l, w, h);
+                result = result + ((2 * mins[0]) + (2 * mins[1]) + (l * w * h));
+                printf(" current variable affectations: %d x %d x %d \n", l, w, h);
                 l = w = h = 0;
             }
         }
@@ -129,8 +162,8 @@ int main(int argc, char **argv)
     FILE *input_file;
     input_file = fopen(input, "r");
 
-    long int result = wrapper(input_file);
-
+    long int result = ribbon(input_file);
     printf("result = %ld \n", result);
+    
     return 0;
 }
